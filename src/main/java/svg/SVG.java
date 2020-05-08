@@ -14,21 +14,15 @@ public class SVG
 {
 	private final List<Element> elements = new ArrayList<Element>();
 
-	//-------------------------------------------------------------------------
-	
 	public List<Element> elements()
 	{
 		return elements;
 	}
-	
-	//-------------------------------------------------------------------------
 
 	public void clear()
 	{
 		elements.clear();
 	}
-	
-	//-------------------------------------------------------------------------
 
 	@Override
 	public String toString()
@@ -42,6 +36,4 @@ public class SVG
 		return sb.toString();
 	}
 
-	//-------------------------------------------------------------------------
-	
 }

@@ -28,7 +28,6 @@ public class Text extends BaseElement
 		} 
 		catch (Exception e)
 		{
-			// ...
 		}
 		return false;
 	}

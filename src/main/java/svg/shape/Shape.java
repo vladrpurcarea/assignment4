@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 public abstract class Shape extends BaseElement {
 
     private Map<Field, Pattern> parser;
+    protected String expr;
 
     public Shape(final String label) {
         super(label);
@@ -23,6 +24,7 @@ public abstract class Shape extends BaseElement {
     }
 
     public boolean load(final String expr) throws IllegalAccessException {
+        this.expr = expr;
         for (Map.Entry<Field, Pattern> entry : parser.entrySet()) {
             Matcher matcher = entry.getValue().matcher(expr);
             if (!matcher.find() || matcher.groupCount() != 1) {
@@ -34,15 +36,13 @@ public abstract class Shape extends BaseElement {
         return true;
     }
 
-    @Override
-    public String toString() {
-        String str = label() + ": ";
-        for (Field field : parser.keySet()) {
-            field.setAccessible(true);
-            try {
-                str += field.getName() + "=" + String.valueOf(field.get(this)) + ", ";
-            } catch (IllegalAccessException e) {
-                // oopsy daisy
+    public String format() throws IllegalAccessException {
+        String str = label() + ":";
+        for (String token : expr.split("[\\s=]+")) {
+            for (Field field : parser.keySet()) {
+                if (field.getName().equalsIgnoreCase(token)) {
+                    str += String.format(" %s=%f", token, (Double) field.get(this));
+                }
             }
         }
         return str + "\n";
